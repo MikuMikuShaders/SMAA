@@ -189,12 +189,12 @@ float SMAASearchYUp(sampler edgesTex, sampler searchTex, float2 texcoord, float 
 	for (int i = 0; i < SMAA_MAX_SEARCH_STEPS; i++)
 	{
 		e = tex2Dlod(edgesTex, float4(texcoord, 0, 0)).rg;
-		texcoord -= ViewportOffset * float2(0.0, 2.0);
+		texcoord -= ViewportOffset2 * float2(0.0, 2.0);
 		if (!(texcoord.y > end && e.r > 0.8281 && e.g == 0.0)) break;
 	}
 
 	float offset = madd(-(255.0 / 127.0), SMAASearchLength(searchTex, e.gr, 0.0), 3.25);
-	return madd(ViewportOffset.y, offset, texcoord.y);
+	return madd(ViewportOffset2.y, offset, texcoord.y);
 }
 
 float SMAASearchYDown(sampler edgesTex, sampler searchTex, float2 texcoord, float end) 
@@ -204,12 +204,12 @@ float SMAASearchYDown(sampler edgesTex, sampler searchTex, float2 texcoord, floa
 	for (int i = 0; i < SMAA_MAX_SEARCH_STEPS; i++)
 	{
 		e = tex2Dlod(edgesTex, float4(texcoord, 0, 0)).rg;
-		texcoord += ViewportOffset * float2(0.0, 2.0);
+		texcoord += ViewportOffset2 * float2(0.0, 2.0);
 		if (!(texcoord.y < end && e.r > 0.8281 && e.g == 0.0)) break;
 	}
 
 	float offset = madd(-(255.0 / 127.0), SMAASearchLength(searchTex, e.gr, 0.5), 3.25);
-	return madd(-ViewportOffset.y, offset, texcoord.y);
+	return madd(-ViewportOffset2.y, offset, texcoord.y);
 }
 
 float2 SMAAArea(sampler areaTex, float2 dist, float e1, float e2, float offset) 
